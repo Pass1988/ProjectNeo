@@ -1,31 +1,15 @@
-# Architettura - Cambio Stato Preventivi
+# Architettura scaffold V1
 
-## Principio chiave
+## Componenti
 
-La **fonte ufficiale dello stato** è il database applicativo. Il NAS contiene file/cartelle ma non decide lo stato.
+1. **frontend-desktop**: UI operatore per elenco preventivi e cambio stato (dettaglio placeholder).
+2. **backend-api**: API centrale con logiche stato e concorrenza ottimistica.
+3. **database**: fonte ufficiale dello stato preventivi.
+4. **sync-service**: servizio separato per lettura cartelle NAS.
 
-## Moduli
+## Decisioni iniziali
 
-1. **Frontend desktop (Python/PySide6)**
-   - Ricerca, filtri, dettaglio, cambio stato, apertura cartella NAS.
-   - Invio `versioneRecord` al backend per concorrenza ottimistica.
-
-2. **Backend API (ASP.NET Core .NET 8)**
-   - Autenticazione Windows/AD.
-   - Autorizzazione per ruoli applicativi.
-   - Validazione transizioni stato.
-   - Persistenza, storico e audit log.
-
-3. **Database SQL Server**
-   - Entità: Preventivi, Stati, Transizioni, Utenti/Ruoli, Storico, Log sincronizzazione, File indicizzati.
-
-4. **Sync service NAS (servizio Windows)**
-   - Scansione incrementale periodica + full scan notturna.
-   - Rilevazione anomalie e riallineamento tecnico.
-   - Nessun bypass della logica di cambio stato manuale del backend.
-
-## Flussi principali
-
-- **Consultazione**: frontend legge dal backend (non dal NAS diretto).
-- **Cambio stato**: backend valida ruoli/transizioni/versione e scrive storico.
-- **Sincronizzazione**: processo separato aggiorna metadati tecnici e segnala anomalie.
+- Repository backend in-memory per bootstrap rapido.
+- Contratti API già aderenti al dominio richiesto.
+- Active Directory demandata a integrazione futura.
+- Nessuna UI avanzata in questa fase.
