@@ -1,16 +1,46 @@
 # Cambio Stato Preventivi
 
-Monorepo iniziale per il sistema desktop di gestione stato preventivi con fonte ufficiale nel database centrale.
+Scaffold iniziale del sistema con architettura modulare:
 
-## Componenti
+- `frontend-desktop` (Python + PySide6)
+- `backend-api` (ASP.NET Core Web API .NET 8)
+- `database` (SQL Server schema iniziale)
+- `sync-service` (servizio separato per NAS)
+- `docs` (documentazione di progetto)
 
-- `frontend-desktop/`: app desktop Python + PySide6.
-- `backend-api/`: API centralizzata ASP.NET Core (.NET 8).
-- `sync-service/`: servizio Windows per sincronizzazione NAS.
-- `database/`: schema, migrazioni e seed SQL Server.
-- `docs/`: specifiche funzionali/tecniche.
-- `scripts/`: script di deploy e bootstrap.
+## Note su specifica
 
-## Stato
+Il file `PROJECT_SPEC.md` non è presente nel repository al momento della generazione scaffold.
+Sono state applicate le richieste ricevute nel task e documentate le scelte nei README dei componenti.
 
-Questa commit inizializza la struttura e la baseline documentale della V1.
+## Avvio rapido locale
+
+### 1) Database
+
+Eseguire `database/schema/001_initial.sql` su SQL Server.
+
+### 2) Backend API
+
+```bash
+cd backend-api/src
+dotnet restore
+dotnet run
+```
+
+### 3) Frontend desktop
+
+```bash
+cd frontend-desktop
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python app/main.py
+```
+
+### 4) Sync service
+
+```bash
+cd sync-service/src
+dotnet restore
+dotnet run
+```
